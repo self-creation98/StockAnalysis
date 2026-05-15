@@ -1,62 +1,75 @@
-##📈 StockAnalysis - Vietnam Stock Market
+# StockAnalysis - Vietnam Stock Market
 
-Trạng thái dự án: 🚧 Work In Progress (Đang thực hiện)
+StockAnalysis is a Python project for Vietnam stock market analysis and forecasting. The core logic has been moved out of the exploratory notebook into a reusable package so the project is easier to run, test, and extend.
 
-Dự án nghiên cứu và phân tích dữ liệu thị trường chứng khoán Việt Nam. Mục tiêu là xây dựng các công cụ trực quan hóa và áp dụng các mô hình phân tích để hỗ trợ việc đưa ra quyết định đầu tư.
+## Current Features
 
-##🚀 Tính năng hiện tại
+- Download historical prices with `vnstock-data`.
+- Normalize OHLCV data and create supervised time-series windows.
+- Split data into 80% train, 10% gap, and 10% test to reduce data leakage.
+- Train a stacking ensemble with ARIMA, Random Forest, and an XGBoost meta-learner.
+- Optionally add LSTM, GRU, and Transformer base learners when TensorFlow is installed.
 
-[x] Kết nối và lấy dữ liệu giao dịch lịch sử từ API của vnstock.
+## Project Structure
 
-[x] Xử lý dữ liệu cơ bản (làm sạch, định dạng thời gian).
+```text
+StockAnalysis/
+|-- main.ipynb                 # Original exploratory notebook
+|-- pyproject.toml             # Package configuration
+|-- requirements.txt           # Core dependencies
+`-- src/
+    `-- stock_analysis/
+        |-- cli.py             # Pipeline entry point
+        |-- config.py          # Data and forecast configuration
+        |-- data.py            # Load, clean, split, and scale data
+        |-- ensemble.py        # Stacking ensemble
+        |-- metrics.py         # Regression metrics
+        `-- models.py          # Base learners
+```
 
-[x] Trực quan hóa biểu đồ nến (Candlestick chart) cơ bản.
+## Installation
 
-##🛠 Công nghệ sử dụng
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e .
+```
 
-Ngôn ngữ: Python
+On Windows PowerShell:
 
-Thư viện chính:
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e .
+```
 
-vnstock: Nguồn cung cấp dữ liệu chứng khoán Việt Nam.
+To enable LSTM, GRU, and Transformer models:
 
-pandas: Xử lý và phân tích cấu trúc dữ liệu.
+```bash
+pip install -e ".[deep-learning]"
+```
 
-matplotlib/plotly: Trực quan hóa dữ liệu.
+## Usage
 
-Môi trường: WSL (Windows Subsystem for Linux)
+```bash
+stock-analysis --symbol HPG --start 2017-01-01 --end 2022-12-31
+```
 
-##📋 Hướng dẫn cài đặt & Chạy dự án
-Để mở và chạy dự án này trên môi trường của bạn (đặc biệt là WSL), hãy làm theo các bước sau:
+You can also run the package as a module:
 
-1. Clone dự án
-   
-```git clone https://github.com/username/StockAnalysis.git```
+```bash
+python -m stock_analysis --symbol HPG --start 2017-01-01 --end 2022-12-31
+```
 
-```cd StockAnalysis```
+Run with deep learning base learners:
 
-2. Cài đặt môi trường ảo
-   
-```python3 -m venv venv```
+```bash
+stock-analysis --symbol HPG --include-deep-learning
+```
 
-```source venv/bin/activate```
+## Roadmap
 
-3. Cài đặt các thư viện cần thiết
-   
-```pip install vnstock pandas matplotlib```
-
-4. Chạy phân tích
-   
-(Thay đổi mã chứng khoán trong file chính trước khi chạy)
-
-```python main.py```
-
-   📅 Roadmap (Kế hoạch phát triển)
-   
-[ ] Tích hợp thêm các chỉ báo kỹ thuật (RSI, MACD, Bollinger Bands).
-
-[ ] Xây dựng dashboard tương tác bằng Streamlit.
-
-[ ] Thử nghiệm áp dụng mô hình Machine Learning để dự báo xu hướng ngắn hạn.
-
-[ ] Phân tích báo cáo tài chính của doanh nghiệp từ nguồn dữ liệu vnstock.
+- Add technical indicators such as RSI, MACD, and Bollinger Bands.
+- Add forecast evaluation charts.
+- Save trained models and run outputs under `artifacts/`.
+- Build an interactive Streamlit dashboard.

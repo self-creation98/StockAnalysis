@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "stock-analysis"
+version = "0.1.0"
+description = "Vietnam stock market analysis and forecasting utilities."
+readme = "README.md"
+requires-python = ">=3.10"
+authors = [
+  { name = "StockAnalysis contributors" }
+]
+dependencies = [
+  "numpy>=1.24",
+  "pandas>=2.0",
+  "scikit-learn>=1.3",
+  "statsmodels>=0.14",
+  "xgboost>=2.0",
+  "vnstock-data>=0.2",
+]
+
+[project.optional-dependencies]
+deep-learning = [
+  "tensorflow-cpu>=2.16",
+]
+visualization = [
+  "matplotlib>=3.8",
+  "plotly>=5.20",
+]
+dev = [
+  "pytest>=8.0",
+  "ruff>=0.5",
+]
+
+[project.scripts]
+stock-analysis = "stock_analysis.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
